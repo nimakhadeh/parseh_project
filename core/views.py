@@ -3,10 +3,8 @@ from properties.models import Property
 from team.models import TeamMember
 
 def home(request):
-    # فقط ملک‌هایی که slug دارند و منتشر شده‌اند
     properties = Property.objects.filter(is_published=True).exclude(slug='')[:4]
     team_members = TeamMember.objects.filter(is_active=True)[:2]
-    
     context = {
         'properties': properties,
         'team_members': team_members,
@@ -44,3 +42,13 @@ def property_detail(request, slug):
         'property': property,
     }
     return render(request, 'core/property_detail.html', context)
+
+def about(request):
+    team_members = TeamMember.objects.filter(is_active=True).order_by('order')
+    context = {
+        'team_members': team_members,
+    }
+    return render(request, 'core/about.html', context)
+
+def contact(request):
+    return render(request, 'core/contact.html')

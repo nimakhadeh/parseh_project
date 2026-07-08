@@ -8,7 +8,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('properties/', views.property_list, name='property_list'),
-    path('properties/<slug:slug>/', views.property_detail, name='property_detail'),  # مسیر جدید برای جزئیات ملک
+    path('properties/<slug:slug>/', views.property_detail, name='property_detail'),
+    path('about/', views.about, name='about'),
+    path('contact/', views.contact, name='contact'),
 ]
 
 if settings.DEBUG:
