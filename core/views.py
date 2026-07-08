@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from properties.models import Property
 from team.models import TeamMember
 
@@ -43,3 +43,15 @@ def property_list(request):
         'max_price': max_price,
     }
     return render(request, 'core/property_list.html', context)
+
+def property_detail(request, slug):
+    """
+    نمایش جزئیات یک ملک بر اساس slug
+    """
+    # دریافت ملک با اسلاگ یا خطای 404 اگر وجود نداشت
+    property = get_object_or_404(Property, slug=slug, is_published=True)
+    
+    context = {
+        'property': property,
+    }
+    return render(request, 'core/property_detail.html', context)
