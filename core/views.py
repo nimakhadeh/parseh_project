@@ -18,7 +18,6 @@ def property_list(request):
     min_price = request.GET.get('min_price', '')
     max_price = request.GET.get('max_price', '')
     
-    # فقط ملک‌هایی که slug دارند
     properties = Property.objects.filter(is_published=True).exclude(slug='')
     
     if transaction_type:
