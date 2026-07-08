@@ -1,0 +1,79 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}املاک پارسه - مشاوران حرفه‌ای مسکن در جویبار{% endblock %}
+
+{% block content %}
+<!-- بخش بنر / هدر -->
+<section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">املاک پارسه</h1>
+        <p class="text-xl md:text-2xl mb-6">مشاوران حرفه‌ای مسکن با تیمی مجرب و کارشناسان رسمی</p>
+        <div class="max-w-2xl mx-auto bg-white rounded-lg p-4 shadow-lg flex flex-wrap gap-2">
+            <input type="text" placeholder="جستجوی ملک..." class="flex-1 p-2 rounded border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded transition">جستجو</button>
+        </div>
+        <div class="mt-6 text-sm text-blue-200">
+            آدرس: فاطمی، خ جویبار، سر بن‌بست بهمن
+        </div>
+    </div>
+</section>
+
+<!-- نمایش ملک‌های ویژه -->
+<section class="container mx-auto px-4 py-16">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">ملک‌های ویژه</h2>
+        <a href="{% url 'property_list' %}" class="text-blue-600 hover:text-blue-800 transition">مشاهده همه &larr;</a>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {% for property in properties %}
+        <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition overflow-hidden">
+            {% if property.image %}
+            <img src="{{ property.image.url }}" alt="{{ property.title }}" class="w-full h-48 object-cover" />
+            {% else %}
+            <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-400">بدون عکس</div>
+            {% endif %}
+            <div class="p-4">
+                <h3 class="font-bold text-lg text-gray-800 mb-1">{{ property.title }}</h3>
+                <div class="flex justify-between text-sm text-gray-600 mb-2">
+                    <span>💰 {{ property.price|floatformat:"0" }} تومان</span>
+                    <span>📐 {{ property.area }} متر</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ property.get_transaction_type_display }}</span>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">جزئیات &larr;</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="col-span-full text-center text-gray-500 py-8">هنوز ملکی ثبت نشده است.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- معرفی تیم -->
+<section class="bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">با تیم حرفه‌ای ما آشنا شوید</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {% for member in team_members %}
+            <div class="bg-white rounded-lg shadow p-6 flex items-center gap-4">
+                {% if member.image %}
+                <img src="{{ member.image.url }}" alt="{{ member.name }}" class="w-20 h-20 rounded-full object-cover" />
+                {% else %}
+                <div class="w-20 h-20 rounded-full bg-blue-200 flex items-center justify-center text-2xl">👤</div>
+                {% endif %}
+                <div>
+                    <h4 class="font-bold text-lg">{{ member.name }}</h4>
+                    <p class="text-sm text-blue-600">{{ member.get_role_display }}</p>
+                    <p class="text-xs text-gray-500 mt-1">{{ member.bio|truncatewords:10 }}</p>
+                    <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">تماس با مشاور</a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="col-span-full text-center text-gray-500 py-8">هنوز اعضای تیم ثبت نشده‌اند.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

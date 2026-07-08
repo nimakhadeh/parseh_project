@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}املاک پارسه - مشاوران حرفه‌ای مسکن{% endblock %}</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- تنظیمات راست‌چین برای Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Vazir', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- فونت وزیر (اختیاری) -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet" type="text/css" />
+    <style>
+        body { font-family: 'Vazir', sans-serif; }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50">
+    <!-- هدر -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between flex-wrap">
+            <!-- لوگو و نام برند -->
+            <div class="flex items-center gap-2">
+                <a href="{% url 'home' %}" class="text-2xl font-bold text-blue-700 hover:text-blue-900 transition">
+                    🏡 پارسه
+                </a>
+                <span class="text-xs text-gray-500 hidden sm:inline-block">مشاوران حرفه‌ای مسکن</span>
+            </div>
+            
+            <!-- منوی اصلی -->
+            <div class="flex items-center gap-4">
+                <a href="{% url 'home' %}" class="text-gray-700 hover:text-blue-600 transition">خانه</a>
+                <a href="{% url 'property_list' %}" class="text-gray-700 hover:text-blue-600 transition">ملک‌ها</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600 transition">درباره ما</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600 transition">تماس با ما</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- محتوای اصلی -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- فوتر -->
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-3">🏡 املاک پارسه</h4>
+                    <p class="text-gray-400 text-sm">مشاوران حرفه‌ای مسکن با تیمی مجرب در زمینه‌های فروش، اجاره و سرمایه‌گذاری ملکی.</p>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-3">دسترسی سریع</h5>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="{% url 'home' %}" class="hover:text-white transition">خانه</a></li>
+                        <li><a href="{% url 'property_list' %}" class="hover:text-white transition">لیست ملک‌ها</a></li>
+                        <li><a href="#" class="hover:text-white transition">درباره ما</a></li>
+                        <li><a href="#" class="hover:text-white transition">تماس با ما</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="font-bold mb-3">تماس با ما</h5>
+                    <p class="text-gray-400 text-sm">📞 ۰۲۱-۱۲۳۴-۵۶۷۸</p>
+                    <p class="text-gray-400 text-sm">📍 فاطمی، خ جویبار، سر بن‌بست بهمن</p>
+                    <p class="text-gray-400 text-sm">📧 info@parseh-property.com</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-6 pt-4 text-center text-gray-500 text-sm">
+                &copy; ۱۴۰۵ - املاک پارسه. تمامی حقوق محفوظ است.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Alpine.js (برای تعاملات بعدی) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
