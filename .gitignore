@@ -1,0 +1,37 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+*.log
+*.pot
+*.pyc
+*.pyo
+*.mo
+*.po
+*.sqlite3
+db.sqlite3
+
+# Django
+/media/
+/staticfiles/
+/static/
+*.pid
+*.seed
+*.pid.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# محیط
+.env
+.env.local
