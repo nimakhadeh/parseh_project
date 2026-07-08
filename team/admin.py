@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import TeamMember
 
-# Register your models here.
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = ('name', 'role', 'order', 'is_active')
+    list_filter = ('role', 'is_active')
+    search_fields = ('name', 'bio')
+    ordering = ('order',)
