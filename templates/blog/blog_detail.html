@@ -1,0 +1,88 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - املاک پارسه{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-16 animate-fade-in">
+    <nav class="flex items-center gap-2 text-sm text-gray-500 mb-6">
+        <a href="{% url 'home' %}" class="hover:text-blue-600 transition"><i class="fas fa-home"></i></a>
+        <i class="fas fa-chevron-left text-xs"></i>
+        <a href="{% url 'blog:blog_list' %}" class="hover:text-blue-600 transition">وبلاگ</a>
+        <i class="fas fa-chevron-left text-xs"></i>
+        <span class="text-gray-800 font-medium truncate">{{ post.title }}</span>
+    </nav>
+
+    <div class="max-w-4xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-96 object-cover" />
+            {% endif %}
+            
+            <div class="p-8 lg:p-12">
+                <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                    <span class="flex items-center gap-1">
+                        <i class="fas fa-calendar-alt text-blue-500"></i>
+                        {{ post.created_at|date:"Y/m/d" }}
+                    </span>
+                    <span class="flex items-center gap-1">
+                        <i class="fas fa-eye text-blue-500"></i>
+                        {{ post.views_count }} بازدید
+                    </span>
+                </div>
+
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{{ post.title }}</h1>
+                
+                <div class="flex flex-wrap gap-2 mb-6">
+                    {% for tag in post.tags.split %}
+                    <span class="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full">#{{ tag }}</span>
+                    {% endfor %}
+                </div>
+
+                <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed whitespace-pre-line">
+                    {{ post.content|linebreaks }}
+                </div>
+
+                <div class="border-t border-gray-100 mt-8 pt-6 flex justify-between items-center">
+                    <a href="{% url 'blog:blog_list' %}" 
+                       class="text-blue-600 hover:text-blue-800 transition inline-flex items-center gap-2">
+                        <i class="fas fa-arrow-right"></i>
+                        بازگشت به لیست مقالات
+                    </a>
+                    <div class="flex gap-3">
+                        <button onclick="shareOnTelegram('{{ post.title }}')" 
+                                class="w-10 h-10 bg-blue-500 hover:bg-blue-600 rounded-xl flex items-center justify-center text-white transition">
+                            <i class="fab fa-telegram"></i>
+                        </button>
+                        <button onclick="shareOnWhatsApp('{{ post.title }}')" 
+                                class="w-10 h-10 bg-green-500 hover:bg-green-600 rounded-xl flex items-center justify-center text-white transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                        <button onclick="copyLink()" 
+                                class="w-10 h-10 bg-gray-600 hover:bg-gray-700 rounded-xl flex items-center justify-center text-white transition">
+                            <i class="fas fa-link"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    function shareOnTelegram(title) {
+        const url = window.location.href;
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title + ' - املاک پارسه')}`, '_blank');
+    }
+    function shareOnWhatsApp(title) {
+        const url = window.location.href;
+        window.open(`https://wa.me/?text=${encodeURIComponent(title + ' - املاک پارسه ' + url)}`, '_blank');
+    }
+    function copyLink() {
+        navigator.clipboard.writeText(window.location.href);
+        alert('✅ لینک کپی شد!');
+    }
+</script>
+{% endblock %}
