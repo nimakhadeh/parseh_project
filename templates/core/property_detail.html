@@ -1,0 +1,110 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}{{ property.title }} - املاک پارسه{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-16">
+    <!-- دکمه بازگشت -->
+    <a href="{% url 'property_list' %}" class="inline-block mb-6 text-blue-600 hover:text-blue-800 transition">
+        &rarr; بازگشت به لیست ملک‌ها
+    </a>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- ستون اصلی: تصویر و اطلاعات -->
+        <div class="lg:col-span-2">
+            <!-- تصویر شاخص -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                {% if property.image %}
+                <img src="{{ property.image.url }}" alt="{{ property.title }}" class="w-full h-96 object-cover" />
+                {% else %}
+                <div class="w-full h-96 bg-gray-200 flex items-center justify-center text-gray-400 text-2xl">
+                    بدون تصویر
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- اطلاعات اصلی -->
+            <div class="bg-white rounded-lg shadow p-6 mt-6">
+                <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ property.title }}</h1>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-blue-50 p-3 rounded">
+                        <p class="text-xs text-gray-500">نوع معامله</p>
+                        <p class="font-bold text-blue-700">{{ property.get_transaction_type_display }}</p>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded">
+                        <p class="text-xs text-gray-500">قیمت</p>
+                        <p class="font-bold text-green-700">{{ property.price|floatformat:"0" }} تومان</p>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded">
+                        <p class="text-xs text-gray-500">متراژ</p>
+                        <p class="font-bold text-purple-700">{{ property.area }} متر مربع</p>
+                    </div>
+                    <div class="bg-yellow-50 p-3 rounded">
+                        <p class="text-xs text-gray-500">تعداد اتاق</p>
+                        <p class="font-bold text-yellow-700">{{ property.rooms }} اتاق</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">توضیحات</h2>
+                    <p class="text-gray-600 leading-relaxed">{{ property.description }}</p>
+                </div>
+                
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">آدرس</h2>
+                    <p class="text-gray-600">📍 {{ property.address }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ستون کناری: فرم تماس و مشاور -->
+        <div class="lg:col-span-1">
+            <!-- کارت مشاور -->
+            <div class="bg-white rounded-lg shadow p-6 mb-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">مشاور این ملک</h3>
+                {% if property.advisor %}
+                <div class="flex items-center gap-4 mb-4">
+                    {% if property.advisor.image %}
+                    <img src="{{ property.advisor.image.url }}" alt="{{ property.advisor.name }}" class="w-16 h-16 rounded-full object-cover" />
+                    {% else %}
+                    <div class="w-16 h-16 rounded-full bg-blue-200 flex items-center justify-center text-2xl">👤</div>
+                    {% endif %}
+                    <div>
+                        <p class="font-bold text-gray-800">{{ property.advisor.name }}</p>
+                        <p class="text-sm text-blue-600">{{ property.advisor.get_role_display }}</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 mb-4">{{ property.advisor.bio|truncatewords:15 }}</p>
+                <a href="tel:{{ property.advisor.phone }}" class="block text-center bg-green-600 hover:bg-green-700 text-white py-2 rounded transition">
+                    📞 تماس با مشاور
+                </a>
+                {% else %}
+                <p class="text-gray-500">مشاوری برای این ملک تعیین نشده است.</p>
+                <a href="#" class="block text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition mt-4">
+                    تماس با دفتر
+                </a>
+                {% endif %}
+            </div>
+            
+            <!-- فرم تماس سریع -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">درخواست بازدید</h3>
+                <form hx-post="#" hx-target="#form-response" hx-swap="innerHTML" class="space-y-4">
+                    <input type="text" name="name" placeholder="نام و نام خانوادگی" required 
+                           class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <input type="tel" name="phone" placeholder="شماره تماس" required 
+                           class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    <textarea name="message" rows="3" placeholder="پیام شما..." 
+                              class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition">
+                        ارسال درخواست
+                    </button>
+                </form>
+                <div id="form-response" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
